@@ -36,17 +36,12 @@ export struct EnablementView {
               .onClick(() => {
                 this.articlePathStack.pushPathByName('articleDetail', item)
               })
-          }.width(
-            new BreakpointType<Length>({ sm: 160, md: 164, lg: 180 }).getValue(this.currentBreakpoint)
-          )
+          }
+          .width(new BreakpointType<Length>({ sm: 160, md: 164, lg: 180 }).getValue(this.currentBreakpoint))
         }, (item: ArticleClass) => item.id)
       }
       .rowsTemplate('1fr')
-      .columnsGap(
-        new BreakpointType<Length>(
-          { sm: 8, md: 12, lg: 16 }
-        ).getValue(this.currentBreakpoint)
-      )
+      .columnsGap(new BreakpointType<Length>({ sm: 8, md: 12, lg: 16 }).getValue(this.currentBreakpoint))
       .scrollBar(BarState.Off)
       .height(169)
       .padding({ top: 2, left: 16, right: 16 })
