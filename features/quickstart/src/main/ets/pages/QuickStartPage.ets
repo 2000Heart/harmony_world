@@ -5,10 +5,10 @@ import { Banner } from '../view/Banner';
 import { EnablementView } from '../view/EnablementView';
 import { BannerDetailPage } from './BannerDetailPage';
 import { BannerClass } from '../model/BannerClass';
+import { Header } from '../view/Header';
 
 @Component
 export struct QuickStartPage {
-  @State message: string = '快速入门';
   @Provide('articlePathStack') articlePathStack: NavPathStack = new NavPathStack();
 
   @Builder
@@ -23,14 +23,7 @@ export struct QuickStartPage {
   build() {
     Navigation(this.articlePathStack) {
       Column() {
-        Text(this.message)
-          .fontSize(24)
-          .fontWeight(700)
-          .width('100%')
-          .textAlign(TextAlign.Start)
-          .padding({ left: 16 })
-          .fontFamily('HarmonyHeiTi-Bold')
-          .lineHeight(33)
+        Header()
         Scroll() {
           Column() {
             Banner()

@@ -1,3 +1,4 @@
+import { BreakpointType, BreakpointTypeEnum } from '@ohos/utils';
 import { BannerClass } from '../model/BannerClass';
 import { bufferToString } from '../util/BufferUtil';
 
@@ -6,6 +7,7 @@ import { bufferToString } from '../util/BufferUtil';
 export struct Banner {
   @Consume('articlePathStack') articlePathStack: NavPathStack;
   @State bannerList: BannerClass[] = [];
+  @StorageProp('currentBreakpoint') currentBreakpoint: string = BreakpointTypeEnum.MD;
 
   aboutToAppear(): void {
     this.getBannerDataFromJSON()
@@ -37,9 +39,17 @@ export struct Banner {
     }
     .autoPlay(true)
     .loop(true)
+    .displayCount(new BreakpointType({ sm: 1, md: 2, lg: 2 }).getValue(this.currentBreakpoint))
+    .displayMode(SwiperDisplayMode.STRETCH)
     .indicator(
-      new DotIndicator()
-        .color('#1a000000')
-        .selectedColor('#0A59F7'))
+      this.currentBreakpoint == BreakpointTypeEnum.SM ?
+        Indicator.dot().color('#1a000000').selectedColor('#0A59F7') :
+        false
+    )
+    .nextMargin(
+      new BreakpointType<Length>(
+        { sm: 0, md: 12, lg: 266 }
+      ).getValue(this.currentBreakpoint)
+    )
   }
 }

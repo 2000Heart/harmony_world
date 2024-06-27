@@ -91,7 +91,7 @@ export struct KnowledgeMap {
       .scrollBarColor(Color.Gray)
       .edgeEffect(EdgeEffect.Spring)
     }
-    .mode(NavigationMode.Stack)
+    .mode(NavigationMode.Auto)
     .hideTitleBar(true)
     .navDestination(this.PageMap)
     .navBarWidth(288)

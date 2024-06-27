@@ -1,14 +1,24 @@
 import { webview } from '@kit.ArkWeb';
+import { Speaker } from '@ohos/utils';
 import { ArticleClass } from '../model/ArticleClass'
+import { emitter } from '@kit.BasicServicesKit';
 
 @Component
 export struct ArticleDetailPage {
-  @State webviewController: webview.WebviewController = new webview.WebviewController;
   @Consume('articlePathStack') articlePathStack: NavPathStack;
   @State articleDetail: ArticleClass | null = null;
+  @State isClicked: boolean = false;
+  speaker: Speaker = new Speaker();
 
   aboutToAppear(): void {
     this.articleDetail = this.articlePathStack.getParamByName('articleDetail')[0] as ArticleClass;
+    emitter.on("eventId", () => {
+      this.isClicked = false;
+    });
+  }
+
+  aboutToDisappear(): void {
+    this.speaker?.shutdownEngine();
   }
 
   build() {
@@ -34,12 +44,23 @@ export struct ArticleDetailPage {
             }
           }
           .width('80%')
+          Image(this.isClicked ? $r('app.media.ic_AI_read_on') : $r('app.media.ic_AI_read_normal'))
+            .width(40)
+            .height(40)
+            .onClick(() => {
+              this.isClicked = !this.isClicked;
+              if (this.isClicked === true) {
+                this.speaker.startSpeak(this.articleDetail!.brief)
+              } else {
+                this.speaker.stopSpeak();
+              }
+            })
         }
         .justifyContent(FlexAlign.SpaceBetween)
         .width('100%')
         .height(56)
 
-        WebComponent({ articleDetail: this.articleDetail, webviewController: this.webviewController })
+        WebComponent({ articleDetail: this.articleDetail})
       }
       .padding({ left: 16, right: 16 })
       .width('100%')
@@ -53,7 +74,7 @@ export struct ArticleDetailPage {
 @Component
 struct WebComponent {
   @Prop articleDetail: ArticleClass | null;
-  @Prop webviewController: WebviewController;
+  private webviewController: webview.WebviewController = new webview.WebviewController();
 
   build() {
     Column() {
