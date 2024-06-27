@@ -3,6 +3,10 @@
     {
       "name": "app_name",
       "value": "HMOS世界入门版"
+    },
+    {
+      "name": "distributed_data_sync",
+      "value": "允许不同设备间的数据互换"
     }
   ]
 }

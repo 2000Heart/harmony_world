@@ -2,6 +2,7 @@ import { CourseLearning } from '@ohos/learning';
 import { KnowledgeMap } from '@ohos/map';
 import { QuickStartPage } from '@ohos/quickstart';
 import { BreakpointSystem, BreakpointTypeEnum } from '@ohos/utils';
+import { AbilityConstant } from '@kit.AbilityKit';
 
 @Entry
 @Component
@@ -17,6 +18,10 @@ struct Index {
 
   aboutToDisappear() {
     this.breakpointSystem.unregister();
+  }
+
+  onContinue(wantParam: Record<string, Object>): AbilityConstant.OnContinueResult | Promise<AbilityConstant.OnContinueResult> {
+    return AbilityConstant.OnContinueResult.AGREE;
   }
 
   @Builder
